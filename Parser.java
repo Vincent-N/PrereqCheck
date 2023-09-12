@@ -20,17 +20,20 @@ public class Parser {
 	private Set<String> tempFieldOfStudySet;
 	private List<StatementGroup> listOfStatements;
 	
+	private static final String NUMBER_REGULAR_EXPR = "([0-9][0-9][0-9][A-Za-z]?)";
+	private static final String GRADE_REGULAR_EXPR = "(([B-Db-d][+-]?)|([Aa][-]?)|F)";
+	private static final String END_PUNCTUATION = "[.,]?";
+	
 	private static final char VAR_INDICATOR = '=';
 	private static final String FIELD_INDICATOR = VAR_INDICATOR + "\\[Field\\]";
 	private static final String NUMBER_INDICATOR = VAR_INDICATOR + "\\[Number\\]";
 	private static final String GRADE_INDICATOR = VAR_INDICATOR + "\\[Grade\\]";
-
-	private static final String NUMBER_REGULAR_EXPR = "([0-9][0-9][0-9][A-Za-z]*)";
-	private static final String GRADE_REGULAR_EXPR = "(([B-Db-d][+-]*)|([Aa][-]*)|F)";
-	private static final String END_PUNCTUATION = "[.,]?";
+	private static final String FIELD_INDICATOR_W_PUNC = FIELD_INDICATOR + END_PUNCTUATION;
+	private static final String NUMBER_INDICATOR_W_PUNC = NUMBER_INDICATOR + END_PUNCTUATION;
+	private static final String GRADE_INDICATOR_W_PUNC = GRADE_INDICATOR + END_PUNCTUATION;
 	
 	private static final String FIELD_OF_STUDY_XML_FILENAME = "smallFieldsOfStudy.xml";
-	private static final String STATEMENT_TO_OUTPUT_FILENAME = "statement_to_output.xml";
+	private static final String STATEMENT_TO_OUTPUT_FILENAME = "statement_to_output_testcases.xml";
 	
 	private static final String SENTINEL_VALUE = "MATCHES!"; // Used to differentiate parsingOutputList contents in the case it matches and the general statement has no variable indicators and in the case the statement does not match
 	
@@ -110,6 +113,7 @@ public class Parser {
 	public void findMatchFromAllGeneral(String givenString) {
 		List<String> outputsWithIndicators = null;
 		List<String> parsingOutputList = null;
+		String genStatementForDebugMessage = null;
 		boolean matchFound = false;
 		
 		for (int i = 0; i < listOfStatements.size(); i++) {
@@ -119,6 +123,7 @@ public class Parser {
 			if (tempParsingOutputList.size() > 0) {
 				outputsWithIndicators = currGroup.getPrereqOutputs();
 				parsingOutputList = tempParsingOutputList;
+				genStatementForDebugMessage = currGenStatement;
 				matchFound = true;
 			}
 		}
@@ -127,7 +132,7 @@ public class Parser {
 			List<String> outputsFilledIn = new ArrayList<>();
 			// do work to replace outputsWithIndicators with actual words
 			for (int i = 0; i < outputsWithIndicators.size(); i++) {
-				outputsFilledIn.add(fillInIndicators(outputsWithIndicators.get(i), parsingOutputList));
+				outputsFilledIn.add(fillInIndicators(outputsWithIndicators.get(i), parsingOutputList, genStatementForDebugMessage));
 			}
 			
 
@@ -155,7 +160,7 @@ public class Parser {
 	 * @param parsingOutputList
 	 * @return
 	 */
-	private String fillInIndicators(String outputWithIndicators, List<String> parsingOutputList) {
+	private String fillInIndicators(String outputWithIndicators, List<String> parsingOutputList, String genStatementForDebugMessage) {
 		StringBuilder sb = new StringBuilder(); // So that this method is O(n), where n is the length of outputWithIndicators
 		for (int i = 0; i < outputWithIndicators.length(); i++) {
 			char currChar = outputWithIndicators.charAt(i);
@@ -171,7 +176,14 @@ public class Parser {
 					currNumberChar = outputWithIndicators.charAt(numberIndex);
 				}
 				i = numberIndex; // let for loop start after =[#]
-				sb.append(parsingOutputList.get(totalNumber));
+				// try catch just to help figure out what rule isn't working
+				try {
+					sb.append(parsingOutputList.get(totalNumber));
+				} catch (Exception e) {
+					System.out.println("Out of bounds error occured when working with:");
+					System.out.println("General Statement: " + genStatementForDebugMessage);
+					System.out.println("Output: " + outputWithIndicators);
+				}
 			} else {
 				sb.append(currChar);
 			}
@@ -293,19 +305,35 @@ public class Parser {
 			givenWords = combineWords(givenStringArr, startIndexGiven, endIndexGiven);
 		}
 		if (currWordGen.charAt(0) == VAR_INDICATOR) { 
+			boolean knowItFails = false;
 			// Means it is a "variable" field. In this case, givenWords must match an item in the list for the variable field
-			if ((givenWords.charAt(givenWords.length() - 1) + "").matches(END_PUNCTUATION)) {
-				givenWords = givenWords.substring(0, givenWords.length() - 1);
-				// TODO: is there a way to do this without making new string?
-				// TODO: doing it this way means that the given statement can still match the
-				// general statement even if the given statement has end punctuation (only one) after all its
-				// words that fit into indicators and the general statement doesn't have this punctuation
-				// Example) Given statement: Computer Science, Communication and Leadership.
-				//          General Statement: =[Field] =[Field]
-				// These would match despite there being a , and a . after each field
-				// TODO: maybe find a better way to do this, although does this punctuation really matter that much?
+			String lastCharOfGiven = givenWords.charAt(givenWords.length() - 1) + "";
+			String lastCharOfGen = currWordGen.charAt(currWordGen.length() - 1) + "";
+			if (lastCharOfGiven.matches(END_PUNCTUATION) || lastCharOfGen.matches(END_PUNCTUATION)) {
+				// Handle case where there is end punctuation after the variable indicator and the 
+				// givenWords. What we want is for determineVariableMatch to return true only if 
+				// the end punctuation is the same and givenWords (minus one end punctuation
+				// is of the type that the variable indicator denotes.
+				if (lastCharOfGiven.equals(lastCharOfGen)) {
+					// Check if the punctuation is the same, if so, we shorten givenWords to only
+					// remove the last punctuation (only need to remove one since variable indicator
+					// will only have at most one punctuation on the end - this is assuming good rule making) and pass this
+					// new givenWords into determineVariableMatch. Also, we don't shorten currWordGen
+					// here because it would have to make a new string which would be slower. Instead,
+					// we just deal with that in the regular expression we match to in determineVariableMatch.
+					givenWords = givenWords.substring(0, givenWords.length() - 1);
+					// Now givenWords is the words which don't consider the one end punctuation that 
+					// the variable indicator and the givenWords had in common. determineVariableMatch
+					// will return true if givenWords (minus one end punctuation)
+					// is of the type that the variable indicator denotes and false otherwise, which
+					// is what we want
+				} else {
+					// end punctuation doesn't match so we know these shouldn't match, try adding more words
+					knowItFails = true;
+				}
+				// TODO: is there a way to do this without making new string for givenWords?
 			}
-			if (determineVariableMatch(currWordGen, givenWords)) {
+			if (!knowItFails && determineVariableMatch(currWordGen, givenWords)) {
 				// Found a match
 				parsingOutputList.add(givenWords);
 				if (checkIfMatchHelper(givenStringArr, generalStatementArr, endIndexGiven, endIndexGiven + 1, currIndexGen + 1, parsingOutputList)) { // Now trying matching the next word in the general statement
@@ -353,12 +381,12 @@ public class Parser {
 	 * @return true if givenWords is considered the provided typeVar. False otherwise.
 	 */
 	public boolean determineVariableMatch(String typeVar, String givenWords) {
-		if (typeVar.matches(FIELD_INDICATOR + END_PUNCTUATION)) {
+		if (typeVar.matches(FIELD_INDICATOR_W_PUNC)) {
 			return tempFieldOfStudySet.contains(givenWords);
-		} else if (typeVar.matches(NUMBER_INDICATOR + END_PUNCTUATION)) {
+		} else if (typeVar.matches(NUMBER_INDICATOR_W_PUNC)) {
 			// Matches 3 numbers and optional letter at the end
 			return givenWords.matches(NUMBER_REGULAR_EXPR);
-		} else if (typeVar.matches(GRADE_INDICATOR + END_PUNCTUATION)) {
+		} else if (typeVar.matches(GRADE_INDICATOR_W_PUNC)) {
 			return givenWords.matches(GRADE_REGULAR_EXPR);
 		}
 //		System.out.println(typeVar + " " + givenWords);
@@ -417,4 +445,15 @@ public class Parser {
  * 
  */
 
-// 
+// TODO: add try catch to print out specifically which mapping went wrong | fix problem with matching punctuations | 
+
+/*
+ * figure out how to create graph from output:
+ * 
+ * was thinking that in XML file, we also write out the course name that is the 
+ * prerequisite (using variable indicators). Then we run through all the courses and generate
+ * an output file which has the course name, the prerequisite outputs, and the courses that are
+ * its prerequisites. Then, once that is done, we go through all the courses we have, creating
+ * a course object for each one then look through files again, but this time filling in the pointers
+ * to the prerequisites
+ */

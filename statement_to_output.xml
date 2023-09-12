@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--This files maps a general statement to its prerequisite format.-->
+<statementMappings>
+    <mapping>
+        <generalStatement>Prerequisite: =[Field] =[Number] or =[Number] with a grade of at least =[Grade].</generalStatement>
+        <prereq>
+            <output>=[0] =[1] with at least a =[3] OR =[0] =[2] with at least a =[3]</output>
+            <prereqCourse>
+                <course>=[0] =[1]</course>
+                <course>=[0] =[2]</course>
+            </prereqCourse>
+        </prereq>
+    </mapping>
+</statementMappings>

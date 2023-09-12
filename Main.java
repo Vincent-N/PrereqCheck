@@ -32,13 +32,19 @@ public class Main {
 		System.out.println(p.checkIfStatementMatch(testGiven5, testGen5));
 		*/
 		
-		p.findMatchFromAllGeneral("Prerequisite: Computer Science Computer 50");
-		p.findMatchFromAllGeneral("Prerequisite: Communication and Leadership note this is not the Field Communication");
-		p.findMatchFromAllGeneral("Prerequisite: Communication and Leadership and also the Field Computer Science Computer in addition");
-		p.findMatchFromAllGeneral("Prerequisite: Computer Science 429 or 429H with a grade of at least C-.");
-		p.findMatchFromAllGeneral("Testing with end punctuation. Computer Science, Communication and Leadership. 375, 123H. B+, D-.");
-		p.findMatchFromAllGeneral("Computer Science, Communication and Leadership.");
+//		p.findMatchFromAllGeneral("Prerequisite: Computer Science Computer 50");
+//		p.findMatchFromAllGeneral("Prerequisite: Communication and Leadership note this is not the Field Communication");
+//		p.findMatchFromAllGeneral("Prerequisite: Communication and Leadership and also the Field Computer Science Computer in addition");
+//		p.findMatchFromAllGeneral("Prerequisite: Computer Science 429 or 429H with a grade of at least C-.");
+//		p.findMatchFromAllGeneral("Testing with end punctuation. Computer Science, Communication and Leadership. 375, 123H. B+, D-.");
+//		p.findMatchFromAllGeneral("Computer Science Communication and Leadership");
 //		System.out.println(Arrays.toString("".split(" ")));
+		
+		p.findMatchFromAllGeneral("Test1");
+		p.findMatchFromAllGeneral("Test2: Computer Science 375 C-");
+		p.findMatchFromAllGeneral("Test3: field Communication and Leadership, course number 123S, with the grade D.");
+		p.findMatchFromAllGeneral("Test4: givenStatement should be missing end period Computer Science");
+		p.findMatchFromAllGeneral("Test5: generalStatement should be missing end period Computer Science.");
 		
 		
 		

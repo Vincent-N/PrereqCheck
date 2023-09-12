@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<courseAndPrerequisites>
+    <course>
+        <courseName>Computer Science 439</courseName>
+        <prereqStatement>Prerequisite: Computer Science 429, or 429H with a grade of at least C-.</prereqStatement>
+    </course>
+</courseAndPrerequisites>
