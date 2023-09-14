@@ -2,6 +2,17 @@
 <!--This files maps a general statement to its prerequisite format.-->
 <statementMappings>
     <mapping>
+        <generalStatement>Prerequisite: =[Field] =[Number], or =[Number] with a grade of at least =[Grade].</generalStatement>
+        <prereq>
+            <output>=[0] =[1] with at least a =[3] OR =[0] =[2] with at least a =[3]</output>
+            <prereqCourse>
+                <course>=[0] =[1]</course>
+                <course>=[0] =[2]</course>
+            </prereqCourse>
+        </prereq>
+    </mapping>
+
+    <mapping>
         <generalStatement>Prerequisite: =[Field] =[Number] or =[Number] with a grade of at least =[Grade].</generalStatement>
         <prereq>
             <output>=[0] =[1] with at least a =[3] OR =[0] =[2] with at least a =[3]</output>
@@ -11,4 +22,123 @@
             </prereqCourse>
         </prereq>
     </mapping>
+
+    <mapping>
+        <generalStatement>Prerequisite: The following courses with a grade of at least =[Grade]: =[Field] =[Number] or =[Number]; and =[Field] =[Number] or =[Number].</generalStatement>
+        <prereq>
+            <output>=[1] =[2] with at least a =[0] OR =[1] =[3] with at least a =[0]</output>
+            <prereqCourse>
+                <course>=[1] =[2]</course>
+                <course>=[1] =[3]</course>
+            </prereqCourse>
+        </prereq>
+        <prereq>
+            <output>=[4] =[5] with at least a =[0] OR =[4] =[6] with at least a =[0]</output>
+            <prereqCourse>
+                <course>=[4] =[5]</course>
+                <course>=[4] =[6]</course>
+            </prereqCourse>
+        </prereq>
+    </mapping>
+
+    <mapping>
+        <generalStatement>Prerequisite: The following coursework with a grade of at least =[Grade] in each: =[Field] =[Number] or =[Number]; and =[Field] =[Number], =[Number], or =[Number], or registration for =[Field] =[Number].</generalStatement>
+        <prereq>
+            <output>=[1] =[2] with at least a =[0] OR =[1] =[3] with at least a =[0]</output>
+            <prereqCourse>
+                <course>=[1] =[2]</course>
+                <course>=[1] =[3]</course>
+            </prereqCourse>
+        </prereq>
+        <prereq>
+            <output>=[4] =[5] with at least a =[0] OR =[4] =[6] with at least a =[0] OR =[4] =[7] with at least a =[0] OR registration for =[8] =[9]</output>
+            <prereqCourse>
+                <course>=[4] =[5]</course>
+                <course>=[4] =[6]</course>
+                <course>=[4] =[7]</course>
+            </prereqCourse>
+        </prereq>
+    </mapping>
+
+    <mapping>
+        <generalStatement>Prerequisite: The following coursework with a grade of at least =[Grade] in each: =[Field] =[Number] or =[Number]; =[Field] =[Number] or =[Number].</generalStatement>
+        <prereq>
+            <output>=[1] =[2] with at least a =[0] OR =[1] =[3] with at least a =[0]</output>
+            <prereqCourse>
+                <course>=[1] =[2]</course>
+                <course>=[1] =[3]</course>
+            </prereqCourse>
+        </prereq>
+        <prereq>
+            <output>=[4] =[5] with at least a =[0] OR =[4] =[6] with at least a =[0]</output>
+            <prereqCourse>
+                <course>=[4] =[5]</course>
+                <course>=[4] =[6]</course>
+            </prereqCourse>
+        </prereq>
+    </mapping>
+
+    <mapping>
+        <generalStatement>Prerequisite: An appropriate score on the mathematics placement exam or =[Field] =[Number] with a grade of at least =[Grade].</generalStatement>
+        <prereq>
+            <output>An appropriate score on the mathematics placement exam OR =[0] =[1] with at least a =[2]</output>
+            <prereqCourse>
+                <course>=[0] =[1]</course>
+            </prereqCourse>
+        </prereq>
+    </mapping>
+
+    <mapping>
+        <generalStatement>Prerequisite: An appropriate score on the mathematics placement exam.</generalStatement>
+        <prereq>
+            <output>An appropriate score on the mathematics placement exam</output>
+            <prereqCourse>
+            </prereqCourse>
+        </prereq>
+    </mapping>
+
+    <mapping>
+        <generalStatement>Prerequisite: Credit with a grade of at least =[Grade] or registration for =[Field] =[Number], =[Number], or =[Number].</generalStatement>
+        <prereq>
+            <output>=[1] =[2] with at least a =[0] OR =[1] =[3] with at least a =[0] OR =[1] =[4] with at least a =[0] OR registration for any of these classes</output>
+            <prereqCourse>
+                <course>=[1] =[2]</course>
+                <course>=[1] =[3]</course>
+                <course>=[1] =[4]</course>
+            </prereqCourse>
+        </prereq>
+    </mapping>
+
+    <mapping>
+        <generalStatement>Prerequisite: =[Field] =[Number] or =[Number] with a grade of at least =[Grade]; or registration or credit with at least =[Grade] in =[Field] =[Number].</generalStatement>
+        <prereq>
+            <output>=[0] =[1] with at least a =[3] OR =[0] =[2] with at least a =[3] OR registration or credit for =[5] =[6] with at least a =[4]</output>
+            <prereqCourse>
+                <course>=[0] =[1]</course>
+                <course>=[0] =[2]</course>
+                <course>=[5] =[6]</course>
+            </prereqCourse>
+        </prereq>
+    </mapping>
+
+    <mapping>
+        <generalStatement>Prerequisite: Consent of honors faculty advisor.</generalStatement>
+        <prereq>
+            <output>Consent of honors faculty advisor.</output>
+            <prereqCourse>
+            </prereqCourse>
+        </prereq>
+    </mapping>
+
+    <mapping>
+        <generalStatement>Class wasn't found in scraping.</generalStatement>
+        <prereq>
+            <output>Course not in course schedule (where we scraped)</output>
+            <prereqCourse>
+            </prereqCourse>
+        </prereq>
+    </mapping>
+
+
+
 </statementMappings>
