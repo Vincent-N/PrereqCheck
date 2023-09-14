@@ -1,10 +1,14 @@
 import java.util.Arrays;
+import java.util.List;
 
 public class Main {
 
 	public static void main(String[] args) {
 		Parser p = new Parser();
-//		String[] test = {"Computer", "Science"};
+		
+//		p.findMatchFromAllGeneral("Prerequisite: Computer Science 429, or 429H with a grade of at least C-.");
+//		p.findMatchFromAllGeneral("Prerequisite: The following courses with a grade of at least C-: Computer Science 311 or 311H; and Computer Science 314 or 314H.");
+		//		String[] test = {"Computer", "Science"};
 //		System.out.println(p.determineVariableMatch("=[Field]", "Computer Science"));
 //		System.out.println(p.determineVariableMatch("=[Number]", "375"));
 //		System.out.println(p.determineVariableMatch("=[Grade]", "F+"));
@@ -40,11 +44,11 @@ public class Main {
 //		p.findMatchFromAllGeneral("Computer Science Communication and Leadership");
 //		System.out.println(Arrays.toString("".split(" ")));
 		
-		p.findMatchFromAllGeneral("Test1");
-		p.findMatchFromAllGeneral("Test2: Computer Science 375 C-");
-		p.findMatchFromAllGeneral("Test3: field Communication and Leadership, course number 123S, with the grade D.");
-		p.findMatchFromAllGeneral("Test4: givenStatement should be missing end period Computer Science");
-		p.findMatchFromAllGeneral("Test5: generalStatement should be missing end period Computer Science.");
+//		p.findMatchFromAllGeneral("Test1");
+//		p.findMatchFromAllGeneral("Test2: Computer Science 375 C-");
+//		p.findMatchFromAllGeneral("Test3: field Communication and Leadership, course number 123S, with the grade D.");
+//		p.findMatchFromAllGeneral("Test4: givenStatement should be missing end period Computer Science");
+//		p.findMatchFromAllGeneral("Test5: generalStatement should be missing end period Computer Science.");
 		
 		
 		

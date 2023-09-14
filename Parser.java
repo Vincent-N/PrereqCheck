@@ -2,8 +2,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -19,10 +22,11 @@ public class Parser {
 
 	private Set<String> tempFieldOfStudySet;
 	private List<StatementGroup> listOfStatements;
+	private Map<String, Course> courseMap;
 	
 	private static final String NUMBER_REGULAR_EXPR = "([0-9][0-9][0-9][A-Za-z]?)";
 	private static final String GRADE_REGULAR_EXPR = "(([B-Db-d][+-]?)|([Aa][-]?)|F)";
-	private static final String END_PUNCTUATION = "[.,]?";
+	private static final String END_PUNCTUATION = "[.,:;]?";
 	
 	private static final char VAR_INDICATOR = '=';
 	private static final String FIELD_INDICATOR = VAR_INDICATOR + "\\[Field\\]";
@@ -33,20 +37,70 @@ public class Parser {
 	private static final String GRADE_INDICATOR_W_PUNC = GRADE_INDICATOR + END_PUNCTUATION;
 	
 	private static final String FIELD_OF_STUDY_XML_FILENAME = "smallFieldsOfStudy.xml";
-	private static final String STATEMENT_TO_OUTPUT_FILENAME = "statement_to_output_testcases.xml";
+	private static final String STATEMENT_TO_OUTPUT_FILENAME = "statement_to_output.xml";
+	private static final String COURSENAME_TO_PREREQ_INPUT_FILENAME = "sample_input_file.xml";
 	
 	private static final String SENTINEL_VALUE = "MATCHES!"; // Used to differentiate parsingOutputList contents in the case it matches and the general statement has no variable indicators and in the case the statement does not match
 	
 	public Parser() {
 		tempFieldOfStudySet = new HashSet<>();
 		listOfStatements = new ArrayList<>();
-//		tempFieldOfStudySet.add("Computer Science");
-//		tempFieldOfStudySet.add("Computer Science Computer");
-//		tempFieldOfStudySet.add("Communication");
-//		tempFieldOfStudySet.add("Communication and Leadership");
-//		listOfStatements.add(new StatementGroup("Prerequisite: =[Field] =[Number1] or =[Number2] with a grade of at least =[Grade].", "=[0] =[1] with at least a =[3], =[0] =[2] with at least a =[3]"));
+		courseMap = new HashMap<>(); // using hashmap because lot of accessing when we are creating courses
 		initializeFieldOfStudySet();
 		initializeListOfStatements();
+		findMatchesForInput();
+		createXMLFile();
+	}
+	
+	private void createXMLFile() {
+		// sort courses
+		List<Course> courseList = new ArrayList<>();
+		for (String currCourseName : courseMap.keySet()) {
+			courseList.add(courseMap.get(currCourseName));
+		}
+		Collections.sort(courseList); // done by alphabetical order of courseName (see compareTo in Course object)
+		
+		for (int i = 0; i < courseList.size(); i++) {
+			courseList.get(i).setNodeID(i);
+		}
+		
+	}
+	
+	/**
+	 * Goes through XML file names in COURSENAME_TO_PREREQ_INPUT_FILENAME (which contains a
+	 * mapping from course name to its prerequisite) and looks for a match
+	 * for all of them. If a course's prereq statement matches a general statement,
+	 * a filled in course object is created and stored in the courseMap.
+	 */
+	private void findMatchesForInput() {
+		try {
+			File inputXMLFile = new File(COURSENAME_TO_PREREQ_INPUT_FILENAME);
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder builder = factory.newDocumentBuilder();
+			Document inputDoc = builder.parse(inputXMLFile);
+			NodeList courseNodes = inputDoc.getElementsByTagName("course");
+			for (int i = 0; i < courseNodes.getLength(); i++) {
+				Node currCourseNode = courseNodes.item(i);
+				if (currCourseNode.getNodeType() == Node.ELEMENT_NODE) {
+					Element currCourseElement = (Element) currCourseNode;
+					String currName = currCourseElement.getElementsByTagName("courseName").item(0).getTextContent();
+					String prereqStatement = currCourseElement.getElementsByTagName("prereqStatement").item(0).getTextContent();
+//					System.out.println(currName);
+					List<Object> parsingOutputListAndMatchedGroup = findMatchFromAllGeneral(prereqStatement);
+					// TODO: i think instead of making intermediate xml file, just make the course objects from here?
+					createCourseObject(currName, prereqStatement, (List<String>) parsingOutputListAndMatchedGroup.get(0), (StatementGroup )parsingOutputListAndMatchedGroup.get(1));
+				}
+			}
+//			System.out.println(courseMap);
+//			System.out.println();
+//			for (String courseName : courseMap.keySet()) {
+//				courseMap.get(courseName).printOutValues();
+//			}
+//			courseMap.get("Computer Science 311").printOutCourseAndPrerequisites("");
+//			courseMap.get("Mathematics 408C").printOutCourseAndPrerequisites("");
+		} catch (Exception e) {
+			System.out.println("Problem with reading XML file in findMatchesForInput(). This not working");
+		}
 	}
 	
 	// https://initialcommit.com/blog/how-to-read-xml-file-in-java used to help read through xml file
@@ -84,24 +138,15 @@ public class Parser {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			Document statementDoc = builder.parse(statementXMLFile);
-			NodeList statementNodes = statementDoc.getElementsByTagName("mapping");
+			NodeList statementNodes = statementDoc.getElementsByTagName("mapping"); // List of all the "mapping" in xml file
 			for (int i = 0; i < statementNodes.getLength(); i++) {
-				Node currMappingNode = statementNodes.item(i);
+				Node currMappingNode = statementNodes.item(i); // get one of the "mapping"
 				if (currMappingNode.getNodeType() == Node.ELEMENT_NODE) {
-					Element currMappingElement = (Element) currMappingNode;
+					Element currMappingElement = (Element) currMappingNode; // convert mapping to element
 					String generalStatement = currMappingElement.getElementsByTagName("generalStatement").item(0).getTextContent();
-					List<String> prerequisiteOutputs = new ArrayList<>();
-					NodeList outputNodes = currMappingElement.getElementsByTagName("output");
-					for (int j = 0; j < outputNodes.getLength(); j++) {
-						Node currOutputNode = outputNodes.item(j);
-						if (currOutputNode.getNodeType() == Node.ELEMENT_NODE) {
-							Element currOutputElement = (Element) currOutputNode;
-							prerequisiteOutputs.add(currOutputElement.getTextContent());
-						}
-					}
 //					System.out.println(prerequisiteOutputs);
 //					String output = currMappingElement.getElementsByTagName("output").item(0).getTextContent();
-					listOfStatements.add(new StatementGroup(generalStatement, prerequisiteOutputs));
+					listOfStatements.add(new StatementGroup(generalStatement, currMappingElement));
 				}
 			}
 		} catch (Exception e) {
@@ -109,11 +154,68 @@ public class Parser {
 		}
 	}
 	
-	// TODO: void for now? have output printed in output file?
-	public void findMatchFromAllGeneral(String givenString) {
-		List<String> outputsWithIndicators = null;
-		List<String> parsingOutputList = null;
+	/**
+	 * Creates a Course object for the given course and any course that is a prerequisite to the given course.
+	 * For the given course, the general prerequisite output (in matchedGroup's list of prerequisiteData) is filled in using the parsingOutputList.
+	 * The course names are also filled in. 
+	 * @param courseName
+	 * @param prereqStatement
+	 * @param parsingOutputList
+	 * @param matchedGroup
+	 */
+	private void createCourseObject(String courseName, String prereqStatement, List<String> parsingOutputList, StatementGroup matchedGroup) {
+		if (parsingOutputList == null) {
+			System.out.println("Match wasn't found. Error");
+			return;
+		}
+		
+		Course currCourse = courseMap.getOrDefault(courseName, new Course(courseName)); // gets existing course object if it exists. otherwise, make a new one
+		courseMap.put(courseName, currCourse); // put in if it wasn't there already
+		
+		List<String> outputList = new ArrayList<>();
+		List<List<Course>> prereqCourseList = new ArrayList<>();
+		
+		// go through all prereqs and set up parallel array
+		List<PrerequisiteData> prereqDataList = matchedGroup.getPrerequisites();
+		for (int i = 0; i < prereqDataList.size(); i++) {
+			PrerequisiteData currPrereqData = prereqDataList.get(i);
+			
+			List<String> generalCourseNames = currPrereqData.getNamesOfPrerequsiteCourses();
+			List<Course> prereqCourseListForOnePrereq = new ArrayList<>();
+			
+			/* adds all the courses for one prerequisite into an list */
+			for (int j = 0; j < generalCourseNames.size(); j++) {
+				String currPrereqCourseName = fillInIndicators(generalCourseNames.get(j), parsingOutputList, matchedGroup.generalStatement);
+				Course currPrereqCourse = courseMap.getOrDefault(currPrereqCourseName, new Course(currPrereqCourseName));
+				courseMap.put(currPrereqCourseName, currPrereqCourse); // put in if it wasn't there already
+				prereqCourseListForOnePrereq.add(currPrereqCourse);
+			}
+			
+			String outputFilledIn = fillInIndicators(currPrereqData.getOutput(), parsingOutputList, matchedGroup.generalStatement);
+			// parallel arrays. output matches with all the courses stated in the output
+			outputList.add(outputFilledIn);
+			prereqCourseList.add(prereqCourseListForOnePrereq);
+		}
+		
+		currCourse.setRestOfValues(prereqStatement, outputList, prereqCourseList);
+	}
+	
+	/**
+	 * Given a string (this should be the specific prerequisite statement), it will look through
+	 * all the general statements (which were provided in STATEMENT_TO_OUTPUT_FILENAME file) to
+	 * find a match.
+	 * 
+	 * 
+	 * @param givenString
+	 * @return If a match is found, a list is returned where the 0th element is the parsingOutputList and 
+	 * the 1th element is the StatementGroup object corresponding to the matched general statement.
+	 * If no match is found, a list is still returned with both elements being null.
+	 */
+	public List<Object> findMatchFromAllGeneral(String givenString) {
+		List<String> outputsWithIndicators = null; 
+		List<String> parsingOutputList = null; /* ordered list thing */
 		String genStatementForDebugMessage = null;
+		StatementGroup matchedGroup = null;
 		boolean matchFound = false;
 		
 		for (int i = 0; i < listOfStatements.size(); i++) {
@@ -121,30 +223,82 @@ public class Parser {
 			String currGenStatement = currGroup.getGenStatement();
 			List<String> tempParsingOutputList = checkIfStatementMatch(givenString, currGenStatement);
 			if (tempParsingOutputList.size() > 0) {
-				outputsWithIndicators = currGroup.getPrereqOutputs();
+//				outputsWithIndicators = currGroup.getPrereqOutputs();
 				parsingOutputList = tempParsingOutputList;
 				genStatementForDebugMessage = currGenStatement;
+				matchedGroup = currGroup;
 				matchFound = true;
+				break;
 			}
 		}
 		
-		if (matchFound) {
-			List<String> outputsFilledIn = new ArrayList<>();
-			// do work to replace outputsWithIndicators with actual words
-			for (int i = 0; i < outputsWithIndicators.size(); i++) {
-				outputsFilledIn.add(fillInIndicators(outputsWithIndicators.get(i), parsingOutputList, genStatementForDebugMessage));
+		List<Object> returnList = new ArrayList<>();
+		returnList.add(parsingOutputList);
+		returnList.add(matchedGroup);
+		return returnList;
+//		if (matchFound) {
+//			createCourseDataXML(parsingOutputList, genStatementForDebugMessage, matchedGroup);
+//		} else {
+//			workForMatchNotFound();
+//		}
+	}
+	
+	private void createCourseDataXML(List<String> parsingOutputList, String genStatementForDebugMessage, StatementGroup matchedGroup) {
+		List<String> outputsFilledIn = new ArrayList<>();
+		
+		System.out.println("General Statement is: " + matchedGroup.generalStatement);
+		
+		List<PrerequisiteData> prereqDataList = matchedGroup.getPrerequisites();
+		for (int i = 0; i < prereqDataList.size(); i++) {
+			System.out.println("Prerequisite " + i);
+			PrerequisiteData currPrereqData = prereqDataList.get(i);
+			System.out.println("\tNot Filled In:");
+			System.out.println("\t"+currPrereqData.getOutput());
+			
+			List<String> courseNames = currPrereqData.getNamesOfPrerequsiteCourses();
+			for (int j = 0; j < courseNames.size(); j++) {
+				System.out.println("\t\t" + courseNames.get(j));
 			}
 			
-
-			System.out.println("Match is found");
-			System.out.println(parsingOutputList);
-			System.out.println(outputsWithIndicators);
-			System.out.println(outputsFilledIn);
 			System.out.println();
-		} else {
-			System.out.println("No match found.");
+			
+			System.out.println("\tFilled In:");
+			System.out.println("\t"+fillInIndicators(currPrereqData.getOutput(), parsingOutputList, matchedGroup.generalStatement));
+			
+			for (int j = 0; j < courseNames.size(); j++) {
+				System.out.println("\t\t" + fillInIndicators(courseNames.get(j), parsingOutputList, matchedGroup.generalStatement));
+			}
 			System.out.println();
 		}
+		
+//		List<String> outputsWithIndicators = new ArrayList<>();
+//		List<List<String>> random = new ArrayList();
+//		
+//		for (int i = 0; i < prereqDataList.size(); i++) {
+//			PrerequisiteData currPrereqData = prereqDataList.get(i);
+//			
+//			outputsWithIndicators.add(currPrereqData.getOutput());
+//			random.add(currPrereqData.getNamesOfPrerequsiteCourses());
+//			
+//		}
+//		
+//		// do work to replace outputsWithIndicators with actual words
+//		for (int i = 0; i < outputsWithIndicators.size(); i++) {
+//			outputsFilledIn.add(fillInIndicators(outputsWithIndicators.get(i), parsingOutputList, genStatementForDebugMessage));
+//		}
+//			
+//
+//		System.out.println("Match is found");
+//		System.out.println(parsingOutputList);
+//		System.out.println(outputsWithIndicators);
+//		System.out.println(outputsFilledIn);
+//		
+		System.out.println();
+	}
+	
+	private void workForMatchNotFound() {
+		System.out.println("No match found.");
+		System.out.println();
 	}
 	
 	/**
@@ -397,13 +551,59 @@ public class Parser {
 		return tempFieldOfStudySet.contains(givenString);
 	}
 	
+	private class PrerequisiteData {
+		private String output;
+		private List<String> prerequisiteClassNames; // general version
+		
+		public PrerequisiteData(Element currPrereqElement) {
+			output = currPrereqElement.getElementsByTagName("output").item(0).getTextContent();
+			prerequisiteClassNames = new ArrayList<>();
+			
+			Element prereqCourseElement = (Element) currPrereqElement.getElementsByTagName("prereqCourse").item(0); // know there is only one prereqCourse per prereq eleemnt
+			// go through all output in XML and add to list
+			NodeList courseNode = prereqCourseElement.getElementsByTagName("course");
+			for (int i = 0; i < courseNode.getLength(); i++) {
+				Node currCourseNode = courseNode.item(i);
+				if (currCourseNode.getNodeType() == Node.ELEMENT_NODE) {
+					Element currCourseElement = (Element) currCourseNode;
+					String currCourseText = currCourseElement.getTextContent();
+					prerequisiteClassNames.add(currCourseText);
+				}
+			}
+		}
+		
+		public String getOutput() {
+			return output;
+		}
+		
+		public List<String> getNamesOfPrerequsiteCourses() {
+			return prerequisiteClassNames;
+		}
+	}
+	
 	private class StatementGroup {
 		private String generalStatement;
-		private List<String> prerequisiteOutputs;
+		private List<PrerequisiteData> prerequisites;
 		
-		public StatementGroup(String generalStatement, List<String> prerequisiteOutputs) {
+		/**
+		 * 
+		 * @param generalStatement general statement string from xml file 
+		 * @param prereqNode list of prereq nodes associated with the given generalStatement
+		 */
+		public StatementGroup(String generalStatement, Element currMappingElement) {
 			this.generalStatement = generalStatement;
-			this.prerequisiteOutputs = prerequisiteOutputs;
+			prerequisites = new ArrayList<>();
+
+			NodeList prereqNode = currMappingElement.getElementsByTagName("prereq");
+			// go through all prereq nodes and create a prereq data object for each
+			for (int j = 0; j < prereqNode.getLength(); j++) {
+				Node currPrereqNode = prereqNode.item(j);
+				if (currPrereqNode.getNodeType() == Node.ELEMENT_NODE) {
+					Element currPrereqElement = (Element) currPrereqNode;
+					prerequisites.add(new PrerequisiteData(currPrereqElement));
+				}
+			}
+			
 			// Note that we are doing a shallow copy since I am the only person using this code and
 			// I expect myself to not change the contents of the array using the other variable, so
 			// if this somehow happens, it's not my fault.
@@ -413,9 +613,13 @@ public class Parser {
 			return generalStatement;
 		}
 		
-		public List<String> getPrereqOutputs() {
-			return prerequisiteOutputs;
+		public List<PrerequisiteData> getPrerequisites() {
+			return prerequisites;
 		}
+		
+//		public List<String> getPrereqOutputs() {
+//			return prerequisiteOutputs;
+//		}
 	}
 }
 
