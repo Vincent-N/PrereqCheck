@@ -1,3 +1,6 @@
+# Provides an easy way to view the prerequisites for a course at UT Austin. Work in progress.
+# Thanks to Cytoscope (code used to display the graph) and Browserify (allowed me to use require on clientside JavaScript) for making this process easier.
+
 # Example:
 
 ![prereqCheck_Photo4](https://github.com/Vincent-N/PrereqCheck/assets/98368619/3ba6ad89-1719-42ab-925d-758a12eda5d1)
