@@ -1,0 +1,12 @@
+html
+{
+    width: 1500px; /* max: 1000px */
+    height: 600px; /* max: 750px */
+}
+
+#cy {
+    width: 700px; /* max: 1000px */
+    height: 500px; /* max: 750px */
+    display: block;
+    background-color: yellow;
+  }
