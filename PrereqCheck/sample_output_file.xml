@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<courseInfoList>
+    <courseInfo>
+        <courseName>Computer Science 439</courseName>
+        <prereq>
+            <output>Computer Science 429 with at least a C- OR Computer Science 429H with at least a C-</output>
+            <prereqCourse>
+                <prereqCourseName>Computer Science 429</prereqCourseName>
+                <prereqCourseName>Computer Science 429H</prereqCourseName>
+            </prereqCourse>
+        </prereq>
+    </courseInfo>
+</courseInfoList>

@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "browserify-shim": "^3.8.16",
+    "cytoscape": "^3.28.1",
+    "cytoscape-dagre": "^2.5.0",
+    "save": "^2.9.0"
+  }
+}

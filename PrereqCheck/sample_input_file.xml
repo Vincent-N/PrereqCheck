@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<!--This file matches the course name to its prerequisite statement-->
+<courseAndPrerequisites>
+    <course>
+        <courseName>Computer Science 439</courseName>
+        <prereqStatement>Prerequisite: Computer Science 429, or 429H with a grade of at least C-.</prereqStatement>
+    </course>
+    <course>
+        <courseName>Computer Science 429</courseName>
+        <prereqStatement>Prerequisite: The following courses with a grade of at least C-: Computer Science 311 or 311H; and Computer Science 314 or 314H.</prereqStatement>
+    </course>
+
+    <course>
+        <courseName>Computer Science 429H</courseName>
+        <prereqStatement>Prerequisite: The following coursework with a grade of at least C- in each: Computer Science 311 or 311H; Computer Science 314 or 314H.</prereqStatement>
+    </course>
+
+    <course>
+        <courseName>Computer Science 314</courseName>
+        <prereqStatement>Prerequisite: Computer Science 312 or 312H with a grade of at least C-.</prereqStatement>
+    </course>
+
+    <course>
+        <courseName>Computer Science 314H</courseName>
+        <prereqStatement>Prerequisite: Consent of honors faculty advisor.</prereqStatement>
+    </course>
+
+    <course>
+        <courseName>Computer Science 311</courseName>
+        <prereqStatement>Prerequisite: The following coursework with a grade of at least C- in each: Computer Science 312 or 312H; and Mathematics 408C, 408K, or 408N, or registration for Mathematics 408C.</prereqStatement>
+    </course>
+
+    <course>
+        <courseName>Computer Science 311H</courseName>
+        <prereqStatement>Prerequisite: Mathematics 408K or 408N with a grade of at least C-; or registration or credit with at least C- in Mathematics 408C.</prereqStatement> <!--Problem here. Had M instaed of mathematics. maybe have webscraper expand this-->
+    </course>
+
+    <course>
+        <courseName>Computer Science 312</courseName>
+        <prereqStatement>Prerequisite: Credit with a grade of at least C- or registration for Mathematics 408C, 408K, or 408N.</prereqStatement>
+    </course>
+
+    <course>
+        <courseName>Computer Science 312H</courseName>
+        <prereqStatement>Class wasn't found in scraping.</prereqStatement>
+    </course>
+
+    <course>
+        <courseName>Mathematics 408C</courseName>
+        <prereqStatement>Prerequisite: An appropriate score on the mathematics placement exam or Mathematics 305G with a grade of at least B-.</prereqStatement>
+    </course>
+
+    <course>
+        <courseName>Mathematics 408K</courseName>
+        <prereqStatement>Prerequisite: An appropriate score on the mathematics placement exam or Mathematics 305G with a grade of at least B-.</prereqStatement>
+    </course>
+
+    <course>
+        <courseName>Mathematics 408N</courseName>
+        <prereqStatement>Prerequisite: An appropriate score on the mathematics placement exam or Mathematics 305G with a grade of at least B-.</prereqStatement>
+    </course>
+
+
+    <course>
+        <courseName>Mathematics 305G</courseName>
+        <prereqStatement>Prerequisite: An appropriate score on the mathematics placement exam.</prereqStatement>
+    </course>
+
+    <!-- TODO: this is temporary. not technically a course so need to figure out some way to deal with this -->
+    <course>
+        <courseName>Consent of honors faculty advisor.</courseName>
+        <prereqStatement>NO PREREQUISITES</prereqStatement>
+    </course>
+
+    <course>
+        <courseName>An appropriate score on the mathematics placement exam.</courseName>
+        <prereqStatement>NO PREREQUISITES</prereqStatement>
+    </course>
+
+</courseAndPrerequisites>

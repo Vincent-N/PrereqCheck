@@ -1,0 +1,244 @@
+<?xml version="1.0"?>
+<courseName>Computer Science 311</courseName>
+<entireOutput>Prerequisite: The following coursework with a grade of at least C- in each: Computer Science 312 or 312H; and Mathematics 408C, 408K, or 408N, or registration for Mathematics 408C.</entireOutput>
+<courseID>0</courseID>
+<prereq>
+<output>Computer Science 312 with at least a C- OR Computer Science 312H with at least a C-</output>
+<prereqCourses>
+<nodeID>
+<prereqCourseName>Computer Science 312</prereqCourseName>
+<nodeID>2</nodeID>
+</nodeID>
+</prereqCourses>
+<prereqCourses>
+<nodeID>
+<prereqCourseName>Computer Science 312H</prereqCourseName>
+<nodeID>3</nodeID>
+</nodeID>
+</prereqCourses>
+</prereq>
+<prereq>
+<output>Mathematics 408C with at least a C- OR Mathematics 408K with at least a C- OR Mathematics 408N with at least a C- OR registration for Mathematics 408C</output>
+<prereqCourses>
+<nodeID>
+<prereqCourseName>Mathematics 408C</prereqCourseName>
+<nodeID>10</nodeID>
+</nodeID>
+</prereqCourses>
+<prereqCourses>
+<nodeID>
+<prereqCourseName>Mathematics 408K</prereqCourseName>
+<nodeID>11</nodeID>
+</nodeID>
+</prereqCourses>
+<prereqCourses>
+<nodeID>
+<prereqCourseName>Mathematics 408N</prereqCourseName>
+<nodeID>12</nodeID>
+</nodeID>
+</prereqCourses>
+</prereq>
+<courseName>Computer Science 311H</courseName>
+<entireOutput>Prerequisite: Mathematics 408K or 408N with a grade of at least C-; or registration or credit with at least C- in Mathematics 408C.</entireOutput>
+<courseID>1</courseID>
+<prereq>
+<output>Mathematics 408K with at least a C- OR Mathematics 408N with at least a C- OR registration or credit for Mathematics 408C with at least a C-</output>
+<prereqCourses>
+<nodeID>
+<prereqCourseName>Mathematics 408K</prereqCourseName>
+<nodeID>11</nodeID>
+</nodeID>
+</prereqCourses>
+<prereqCourses>
+<nodeID>
+<prereqCourseName>Mathematics 408N</prereqCourseName>
+<nodeID>12</nodeID>
+</nodeID>
+</prereqCourses>
+<prereqCourses>
+<nodeID>
+<prereqCourseName>Mathematics 408C</prereqCourseName>
+<nodeID>10</nodeID>
+</nodeID>
+</prereqCourses>
+</prereq>
+<courseName>Computer Science 312</courseName>
+<entireOutput>Prerequisite: Credit with a grade of at least C- or registration for Mathematics 408C, 408K, or 408N.</entireOutput>
+<courseID>2</courseID>
+<prereq>
+<output>Mathematics 408C with at least a C- OR Mathematics 408K with at least a C- OR Mathematics 408N with at least a C- OR registration for any of these classes</output>
+<prereqCourses>
+<nodeID>
+<prereqCourseName>Mathematics 408C</prereqCourseName>
+<nodeID>10</nodeID>
+</nodeID>
+</prereqCourses>
+<prereqCourses>
+<nodeID>
+<prereqCourseName>Mathematics 408K</prereqCourseName>
+<nodeID>11</nodeID>
+</nodeID>
+</prereqCourses>
+<prereqCourses>
+<nodeID>
+<prereqCourseName>Mathematics 408N</prereqCourseName>
+<nodeID>12</nodeID>
+</nodeID>
+</prereqCourses>
+</prereq>
+<courseName>Computer Science 312H</courseName>
+<entireOutput>Class wasn't found in scraping.</entireOutput>
+<courseID>3</courseID>
+<prereq>
+<output>Course not in course schedule (where we scraped)</output>
+</prereq>
+<courseName>Computer Science 314</courseName>
+<entireOutput>Prerequisite: Computer Science 312 or 312H with a grade of at least C-.</entireOutput>
+<courseID>4</courseID>
+<prereq>
+<output>Computer Science 312 with at least a C- OR Computer Science 312H with at least a C-</output>
+<prereqCourses>
+<nodeID>
+<prereqCourseName>Computer Science 312</prereqCourseName>
+<nodeID>2</nodeID>
+</nodeID>
+</prereqCourses>
+<prereqCourses>
+<nodeID>
+<prereqCourseName>Computer Science 312H</prereqCourseName>
+<nodeID>3</nodeID>
+</nodeID>
+</prereqCourses>
+</prereq>
+<courseName>Computer Science 314H</courseName>
+<entireOutput>Prerequisite: Consent of honors faculty advisor.</entireOutput>
+<courseID>5</courseID>
+<prereq>
+<output>Consent of honors faculty advisor.</output>
+</prereq>
+<courseName>Computer Science 429</courseName>
+<entireOutput>Prerequisite: The following courses with a grade of at least C-: Computer Science 311 or 311H; and Computer Science 314 or 314H.</entireOutput>
+<courseID>6</courseID>
+<prereq>
+<output>Computer Science 311 with at least a C- OR Computer Science 311H with at least a C-</output>
+<prereqCourses>
+<nodeID>
+<prereqCourseName>Computer Science 311</prereqCourseName>
+<nodeID>0</nodeID>
+</nodeID>
+</prereqCourses>
+<prereqCourses>
+<nodeID>
+<prereqCourseName>Computer Science 311H</prereqCourseName>
+<nodeID>1</nodeID>
+</nodeID>
+</prereqCourses>
+</prereq>
+<prereq>
+<output>Computer Science 314 with at least a C- OR Computer Science 314H with at least a C-</output>
+<prereqCourses>
+<nodeID>
+<prereqCourseName>Computer Science 314</prereqCourseName>
+<nodeID>4</nodeID>
+</nodeID>
+</prereqCourses>
+<prereqCourses>
+<nodeID>
+<prereqCourseName>Computer Science 314H</prereqCourseName>
+<nodeID>5</nodeID>
+</nodeID>
+</prereqCourses>
+</prereq>
+<courseName>Computer Science 429H</courseName>
+<entireOutput>Prerequisite: The following coursework with a grade of at least C- in each: Computer Science 311 or 311H; Computer Science 314 or 314H.</entireOutput>
+<courseID>7</courseID>
+<prereq>
+<output>Computer Science 311 with at least a C- OR Computer Science 311H with at least a C-</output>
+<prereqCourses>
+<nodeID>
+<prereqCourseName>Computer Science 311</prereqCourseName>
+<nodeID>0</nodeID>
+</nodeID>
+</prereqCourses>
+<prereqCourses>
+<nodeID>
+<prereqCourseName>Computer Science 311H</prereqCourseName>
+<nodeID>1</nodeID>
+</nodeID>
+</prereqCourses>
+</prereq>
+<prereq>
+<output>Computer Science 314 with at least a C- OR Computer Science 314H with at least a C-</output>
+<prereqCourses>
+<nodeID>
+<prereqCourseName>Computer Science 314</prereqCourseName>
+<nodeID>4</nodeID>
+</nodeID>
+</prereqCourses>
+<prereqCourses>
+<nodeID>
+<prereqCourseName>Computer Science 314H</prereqCourseName>
+<nodeID>5</nodeID>
+</nodeID>
+</prereqCourses>
+</prereq>
+<courseName>Computer Science 439</courseName>
+<entireOutput>Prerequisite: Computer Science 429, or 429H with a grade of at least C-.</entireOutput>
+<courseID>8</courseID>
+<prereq>
+<output>Computer Science 429 with at least a C- OR Computer Science 429H with at least a C-</output>
+<prereqCourses>
+<nodeID>
+<prereqCourseName>Computer Science 429</prereqCourseName>
+<nodeID>6</nodeID>
+</nodeID>
+</prereqCourses>
+<prereqCourses>
+<nodeID>
+<prereqCourseName>Computer Science 429H</prereqCourseName>
+<nodeID>7</nodeID>
+</nodeID>
+</prereqCourses>
+</prereq>
+<courseName>Mathematics 305G</courseName>
+<entireOutput>Prerequisite: An appropriate score on the mathematics placement exam.</entireOutput>
+<courseID>9</courseID>
+<prereq>
+<output>An appropriate score on the mathematics placement exam</output>
+</prereq>
+<courseName>Mathematics 408C</courseName>
+<entireOutput>Prerequisite: An appropriate score on the mathematics placement exam or Mathematics 305G with a grade of at least B-.</entireOutput>
+<courseID>10</courseID>
+<prereq>
+<output>An appropriate score on the mathematics placement exam OR Mathematics 305G with at least a B-</output>
+<prereqCourses>
+<nodeID>
+<prereqCourseName>Mathematics 305G</prereqCourseName>
+<nodeID>9</nodeID>
+</nodeID>
+</prereqCourses>
+</prereq>
+<courseName>Mathematics 408K</courseName>
+<entireOutput>Prerequisite: An appropriate score on the mathematics placement exam or Mathematics 305G with a grade of at least B-.</entireOutput>
+<courseID>11</courseID>
+<prereq>
+<output>An appropriate score on the mathematics placement exam OR Mathematics 305G with at least a B-</output>
+<prereqCourses>
+<nodeID>
+<prereqCourseName>Mathematics 305G</prereqCourseName>
+<nodeID>9</nodeID>
+</nodeID>
+</prereqCourses>
+</prereq>
+<courseName>Mathematics 408N</courseName>
+<entireOutput>Prerequisite: An appropriate score on the mathematics placement exam or Mathematics 305G with a grade of at least B-.</entireOutput>
+<courseID>12</courseID>
+<prereq>
+<output>An appropriate score on the mathematics placement exam OR Mathematics 305G with at least a B-</output>
+<prereqCourses>
+<nodeID>
+<prereqCourseName>Mathematics 305G</prereqCourseName>
+<nodeID>9</nodeID>
+</nodeID>
+</prereqCourses>
+</prereq>
