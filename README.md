@@ -1,5 +1,5 @@
 # Provides an easy way to view the prerequisites for a course at UT Austin. Work in progress.
-# Thanks to Cytoscope (code used to display the graph) and Browserify (allowed me to use require on clientside JavaScript) for making this process easier.
+# Thanks to Cytoscape.js (library used to display the graph) and Browserify.js (allowed me to use require on clientside JavaScript) for making this process easier.
 
 # Example:
 
