@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<statementMappings>
+    <mapping>
+        <generalStatement>Prerequisite: =[Field] =[Number] or =[Number] with a grade of at least =[Grade].</generalStatement>
+        <output>=[0] =[1] with at least a =[3]</output>
+        <output>=[0] =[2] with at least a =[3]</output>
+    </mapping>
+    <mapping>
+        <generalStatement>Prerequisite: =[Field] note this is not the Field Communication</generalStatement>
+        <output>This is just a test one. Now displaying the field: =[0]</output>
+        <output>Maybe add another test output with TWO indicators!!! =[0], and =[0]</output>
+    </mapping>
+    <mapping>
+        <generalStatement>Testing with end punctuation. =[Field], =[Field]. =[Number], =[Number]. =[Grade], =[Grade].</generalStatement>
+        <output>=[0] =[2] with at least a =[4]</output>
+        <output>=[1] =[3] with at least a =[5]</output>
+    </mapping>
+    <mapping>
+        <generalStatement>=[Field] =[Field]</generalStatement>
+        <output>=[0] and =[1]</output>
+        <output>=[1] and =[0]</output>
+    </mapping>
+    <mapping>
+        <generalStatement> Test1 </generalStatement>
+        <output>Output1</output>
+        <output>Output2   </output>
+    </mapping>
+    <mapping>
+        <generalStatement>Test2: =[Field] =[Number] =[Grade]</generalStatement>
+        <output>Output1: =[0] =[1] with a grade of at least =[2]</output>
+        <output>Output2: =[0] =[1] =[2]</output>
+    </mapping>
+    <mapping>
+        <generalStatement>Test3: field =[Field], course number =[Number], with the grade =[Grade].</generalStatement>
+        <output>Output1: =[0] =[1] with a grade of at least =[2]</output>
+        <output>Output2: =[0] =[1] =[2]</output>
+    </mapping>
+    <mapping>
+        <generalStatement>Test4: givenStatement should be missing end period =[Field].</generalStatement>
+        <output>Output1: =[0] =[0] with a grade of at least =[0]</output>
+    </mapping>
+    <mapping>
+        <generalStatement>Test5: generalStatement should be missing end period =[Field]</generalStatement>
+        <output>Output1: =[0] =[0] with a grade of at least =[0]</output>
+    </mapping>
+</statementMappings>
